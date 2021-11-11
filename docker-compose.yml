@@ -1,0 +1,23 @@
+version: '3'
+services:
+  app:
+    build: .
+    container_name: app
+    tty: true
+    env_file:
+      - ./env/local.env
+    volumes:
+      - .:/app
+  mock-sendgrid:
+    image: ykanazawa/sendgrid-maildev
+    container_name: mock-sendgrid
+    hostname: mock-sendgrid 
+    environment:
+      - SENDGRID_DEV_API_SERVER=:3030
+      - SENDGRID_DEV_API_KEY=SG.xxxxx
+      - SENDGRID_DEV_SMTP_SERVER=127.0.0.1:1025
+    ports:
+      - 1025:1025
+      - 1080:1080
+      - 3030:3030
+

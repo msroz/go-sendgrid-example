@@ -1,0 +1,7 @@
+.project.envrc
+.DS_Store
+.idea/
+.vscode/
+tmp
+
+env/local.env
