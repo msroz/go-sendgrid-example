@@ -23,12 +23,15 @@ func main() {
 
 	{
 		cl := di.InjectMailClient()
+		p := client.NewPersonalization()
+		p.AddTos(client.NewEmail("", to)).
+			AddCCs(client.NewEmail("", cc))
+
 		m := client.NewMessage(subject)
-		m.AddFrom(client.NewEmail("From User", "test@example.com")).
-			AddTo(client.NewEmail("", to)).
-			AddCC(client.NewEmail("", cc)).
-			AddPlaintContent(plainContent).
-			AddHTMLContent(htmlContent)
+		m.SetFrom(client.NewEmail("From User", "test@example.com")).
+			AddContents(client.NewContent(client.ContentTypePlain, plainContent)).
+			AddContents(client.NewContent(client.ContentTypeHTML, htmlContent)).
+			AddPersonalizations(p)
 
 		err := cl.Send(m)
 		if err != nil {
